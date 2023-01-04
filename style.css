@@ -1,0 +1,225 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("./img/Roboto.ttf");
+}
+
+body {
+  font-family: "Roboto";
+}
+
+.container {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 3fr minmax(auto, 350px);
+  grid-template-rows: 125px 1fr;
+}
+
+.formContainer.hide {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.formContainer {
+  opacity: 1;
+  display: flex;
+  transition: opacity 1s;
+  position: fixed;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgb(118 119 119 / 62%);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
+.header {
+  background-color: black;
+  grid-column: 1/-1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header > h1 {
+  color: white;
+  margin-left: 25px;
+}
+
+.header > input {
+  width: 50px;
+  height: 50px;
+  background-color: rgb(17, 152, 241);
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  margin-right: 25px;
+}
+
+.header > input:hover {
+  transform: scale(1.1);
+}
+
+.header > input:active {
+  transform: scale(0.9);
+}
+
+.content {
+  background-image: linear-gradient(to bottom, black, #53299f);
+  grid-area: 2/1/3;
+}
+
+.card-area {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 25px;
+  margin: 25px;
+}
+
+.card {
+  width: 200px;
+  height: 300px;
+  background-color: #53299f;
+  color: white;
+  border: 5px solid rgb(255, 255, 255);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.4s;
+}
+
+.card > h3 {
+  margin-top: 25px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+  top: 180px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 5px;
+  bottom: 5px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.switch input:checked + .slider {
+  background-color: #ffeb3b;
+}
+
+.switch input:focus + .slider {
+  box-shadow: 0 0 1px #ffeb3b;
+}
+
+.switch input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(63, 63, 63);
+  grid-area: 2/2;
+}
+
+.info-block {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-direction: column;
+  margin: 25px;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+}
+
+.info-block > h2 {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.info-clear-block {
+  text-align: center;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  margin: 25px;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+}
+
+.info-clear-block > h2 {
+  margin-top: 25px;
+}
+
+.info-clear-block > input {
+  margin: auto;
+  width: 90px;
+  height: 50px;
+  border-radius: 20px;
+  background-color: red;
+  margin-bottom: 25px;
+}
+
+.info-clear-block > input:hover {
+  transform: scale(1.1);
+}
+
+.info-clear-block > input:active {
+  transform: scale(0.9);
+}
