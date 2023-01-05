@@ -1,45 +1,53 @@
-function CreateBook(title, author, pages, read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-
-  this.info = function () {
-    return `${this.title} by ${this.author}, ${this.pages}, ${this.read}`;
-  };
-}
-
-const theHobbit = new CreateBook(
-  "The Hobbit",
-  "J.R.R. Tolkien",
-  "295 pages",
-  "not read yet"
-);
-
-console.log(theHobbit.info());
-
 let myLibrary = [];
+let htmlCode = ``;
+const Cards = document.querySelector(".card-area");
+let btn = document.getElementById("btnSubmit");
+btn.addEventListener("click", addBookToLibrary);
+var index;
 
 function addBookToLibrary(event) {
   event.preventDefault();
   //when form submitted
+  if (myLibrary.length == 0) {
+    index = 0;
+  } else {
+    index = myLibrary.length - 1;
+    var lastElement = myLibrary[index].index;
+    index = lastElement + 1;
+  }
   var nameValue = document.getElementById("book_name").value;
   var authorValue = document.getElementById("book_author").value;
   var pagesValue = document.getElementById("book_pages").value;
-  let book = new Book(nameValue, authorValue, pagesValue);
+  console.log(index);
+  let book = new Book(nameValue, authorValue, pagesValue, index);
   myLibrary.push(book);
   console.log(myLibrary);
   var x = document.getElementById("formCon");
   x.classList.add("hide");
+  htmlCode = `
+  <div class="card" data-attribute=${index}>
+    <h3>${nameValue}</h3>
+    <h5>by ${authorValue}</h5>
+    <h5>${pagesValue} Pages</h5>
+    <label class="switch">
+      <input type="checkbox" onclick="change(event)"/>
+      <span class="slider round"></span>
+    </label>
+    <input type="button" value="Remove" onclick="remove(event)" />
+  </div>
+  `;
+
+  Cards.innerHTML += htmlCode;
 }
 
-function Book(name, author, pages) {
+function Book(name, author, pages, index) {
   //this will be called in add book
   // the constructor...
   this.name = name;
   this.author = author;
   this.pages = pages;
   this.read = "false";
+  this.index = index;
 }
 
 function showAdd() {
@@ -54,22 +62,36 @@ function showAdd() {
   }
 }
 
-function toggleRead() {
-  var x = document.getElementById("formCon");
-}
-
 function change(e) {
-  if (e.checked === true) {
-    while (e.parentNode.className.toLowerCase() !== "card") {
-      e = e.parentNode;
-      f= e.parentNode;   
-    }
-    console.log(e);
-    f.style.backgroundColor = "#7cd217";
-  }else if(e.checked === false){
+  var f;
+  var g;
+  f = e.target.parentNode.parentNode;
+  g = f.getAttribute("data-attribute");
+  var h = myLibrary.findIndex((item) => item.index == g);
+  if (myLibrary[h].read == true) {
+    myLibrary[h].read = false;
+    e.target.classList.remove("checked");
     f.style.backgroundColor = "#53299f";
+  } else {
+    myLibrary[h].read = true;
+    e.target.classList.add("checked");
+    f.style.backgroundColor = "#7cd217";
   }
 }
 
-let btn = document.getElementById("btnSubmit");
-btn.addEventListener("click", addBookToLibrary);
+function remove(e) {
+  var f;
+  var g;
+  f = e.target.parentNode;
+  g = f.getAttribute("data-attribute");
+  var h = myLibrary.findIndex((item) => item.index == g);
+  myLibrary.splice(h, 1);
+  f = e.target.parentNode;
+  f.remove();
+  console.log(myLibrary);
+}
+
+function clearLibrary() {
+  myLibrary.length = 0;
+  Cards.innerHTML = "";
+}

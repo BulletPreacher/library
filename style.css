@@ -80,7 +80,7 @@ body {
 
 .card-area {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 0.2fr));
   gap: 25px;
   margin: 25px;
 }
@@ -100,6 +100,7 @@ body {
 
 .card > h3 {
   margin-top: 25px;
+  text-align: center;
 }
 
 .switch {
@@ -140,7 +141,7 @@ body {
   transition: 0.4s;
 }
 
-.switch input:checked + .slider {
+.switch input.checked + .slider {
   background-color: #ffeb3b;
 }
 
@@ -148,7 +149,7 @@ body {
   box-shadow: 0 0 1px #ffeb3b;
 }
 
-.switch input:checked + .slider:before {
+.switch input.checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
