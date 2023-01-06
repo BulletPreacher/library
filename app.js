@@ -38,6 +38,7 @@ function addBookToLibrary(event) {
   `;
 
   Cards.innerHTML += htmlCode;
+  updateStats();
 }
 
 function Book(name, author, pages, index) {
@@ -46,7 +47,7 @@ function Book(name, author, pages, index) {
   this.name = name;
   this.author = author;
   this.pages = pages;
-  this.read = "false";
+  this.read = false;
   this.index = index;
 }
 
@@ -77,6 +78,7 @@ function change(e) {
     e.target.classList.add("checked");
     f.style.backgroundColor = "#7cd217";
   }
+  updateStats();
 }
 
 function remove(e) {
@@ -89,9 +91,23 @@ function remove(e) {
   f = e.target.parentNode;
   f.remove();
   console.log(myLibrary);
+  updateStats();
 }
 
 function clearLibrary() {
   myLibrary.length = 0;
   Cards.innerHTML = "";
+  updateStats();
+}
+
+function updateStats() {
+  var totalBooks = myLibrary.length;
+  console.log("TotalBooks " + totalBooks);
+  var totalRead = myLibrary.filter((obj) => obj.read === true).length;
+  console.log("Totalread " + totalRead);
+  var totalUnread = totalBooks - totalRead;
+  console.log("Totalunread " + totalUnread);
+  document.getElementById("totalBooks").innerText = "Total Books:" + totalBooks;
+  document.getElementById("totalRead").innerText = "Read:" + totalRead;
+  document.getElementById("totalUnread").innerText = "Not Read:" + totalUnread;
 }
