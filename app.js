@@ -2,54 +2,8 @@ let myLibrary = [];
 let htmlCode = ``;
 const Cards = document.querySelector(".card-area");
 let btn = document.getElementById("btnSubmit");
-btn.addEventListener("click", addBookToLibrary);
+btn.addEventListener("click", validateData);
 var index;
-
-function addBookToLibrary(event) {
-  event.preventDefault();
-  //when form submitted
-  if (myLibrary.length == 0) {
-    index = 0;
-  } else {
-    index = myLibrary.length - 1;
-    var lastElement = myLibrary[index].index;
-    index = lastElement + 1;
-  }
-  var nameValue = document.getElementById("book_name").value;
-  var authorValue = document.getElementById("book_author").value;
-  var pagesValue = document.getElementById("book_pages").value;
-  console.log(index);
-  let book = new Book(nameValue, authorValue, pagesValue, index);
-  myLibrary.push(book);
-  console.log(myLibrary);
-  var x = document.getElementById("formCon");
-  x.classList.add("hide");
-  htmlCode = `
-  <div class="card" data-attribute=${index}>
-    <h3>${nameValue}</h3>
-    <h5>by ${authorValue}</h5>
-    <h5>${pagesValue} Pages</h5>
-    <label class="switch">
-      <input type="checkbox" onclick="change(event)"/>
-      <span class="slider round"></span>
-    </label>
-    <input type="button" value="Remove" onclick="remove(event)" />
-  </div>
-  `;
-
-  Cards.innerHTML += htmlCode;
-  updateStats();
-}
-
-function Book(name, author, pages, index) {
-  //this will be called in add book
-  // the constructor...
-  this.name = name;
-  this.author = author;
-  this.pages = pages;
-  this.read = false;
-  this.index = index;
-}
 
 function showAdd() {
   var x = document.getElementById("formCon");
@@ -63,20 +17,77 @@ function showAdd() {
   }
 }
 
-function change(e) {
+function validateData(event) {
+  var nameValue = document.getElementById("book_name").value;
+  var authorValue = document.getElementById("book_author").value;
+  var pagesValue = document.getElementById("book_pages").value;
+  if (nameValue !== "" && authorValue !== "" && pagesValue.length!==0) {
+    addBookToLibrary(event);
+  }
+}
+
+function addBookToLibrary(event) {
+  //when form submitted
+  event.preventDefault();
+  if (myLibrary.length == 0) {
+    index = 0;
+  } else {
+    index = myLibrary.length - 1;
+    var lastElement = myLibrary[index].index;
+    index = lastElement + 1;
+  }
+  nameValue = document.getElementById("book_name").value;
+  authorValue = document.getElementById("book_author").value;
+  pagesValue = document.getElementById("book_pages").value;
+  let book = new Book(nameValue, authorValue, pagesValue, index);
+  myLibrary.push(book);
+  var x = document.getElementById("formCon");
+  x.classList.add("hide");
+  htmlCode = `
+  <div class="card" data-attribute=${index}>
+    <div class="bookbox">
+      <div class="bookdetails">
+      <h3>${nameValue}</h3>
+      <h5 id="authorText">By ${authorValue}</h5>
+      </div>
+      <h5 id="pageText">${pagesValue} Pages</h5>
+    </div>
+    <div class="switchbox">
+      <label class="switch">
+        <input type="checkbox" onclick="setRead(event)"/>
+        <span class="slider round"></span>
+      </label>
+    </div>
+    <input type="button" value="Remove" onclick="remove(event)" />
+  </div>
+  `;
+  Cards.innerHTML += htmlCode;
+  updateStats();
+}
+
+function Book(name, author, pages, index) {
+  this.name = name;
+  this.author = author;
+  this.pages = pages;
+  this.read = false;
+  this.index = index;
+}
+
+function setRead(e) {
   var f;
   var g;
-  f = e.target.parentNode.parentNode;
+  f = e.target.parentNode.parentNode.parentNode;
   g = f.getAttribute("data-attribute");
   var h = myLibrary.findIndex((item) => item.index == g);
   if (myLibrary[h].read == true) {
     myLibrary[h].read = false;
     e.target.classList.remove("checked");
-    f.style.backgroundColor = "#53299f";
+    f.style.backgroundColor = "";
   } else {
     myLibrary[h].read = true;
     e.target.classList.add("checked");
-    f.style.backgroundColor = "#7cd217";
+    f.style.backgroundColor = "#ffeb3bd4";
+    f.style.boxShadow = "#ffeb3bd4";
   }
   updateStats();
 }
@@ -102,12 +113,9 @@ function clearLibrary() {
 
 function updateStats() {
   var totalBooks = myLibrary.length;
-  console.log("TotalBooks " + totalBooks);
   var totalRead = myLibrary.filter((obj) => obj.read === true).length;
-  console.log("Totalread " + totalRead);
   var totalUnread = totalBooks - totalRead;
-  console.log("Totalunread " + totalUnread);
-  document.getElementById("totalBooks").innerText = "Total Books:" + totalBooks;
-  document.getElementById("totalRead").innerText = "Read:" + totalRead;
-  document.getElementById("totalUnread").innerText = "Not Read:" + totalUnread;
+  document.getElementById("totalBooks").innerText = totalBooks;
+  document.getElementById("totalRead").innerText = totalRead;
+  document.getElementById("totalUnread").innerText = totalUnread;
 }
